@@ -79,6 +79,11 @@ public class ImageEditor {
                 i++;
                 outputImg = Effects.BoxBlur(inputImg, w);
                 break;
+            case "gblur": 
+                int r = Integer.parseInt(args[i]);
+                i++;
+                outputImg = Effects.GaussianBlur(inputImg, r);
+                break;
             default: 
                 System.out.println("Invalid option");
                 return;

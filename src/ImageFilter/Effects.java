@@ -85,4 +85,57 @@ public class Effects {
 
         return outputImg;
     }
+
+    public static BufferedImage GaussianBlur(BufferedImage inputImg, int radius) {
+        int height = inputImg.getHeight();
+        int width = inputImg.getWidth();
+        BufferedImage outputImg = new BufferedImage(width, height, inputImg.getType());
+
+        double sigma = Math.max(radius / 2, 1);
+        int kernalWidth = 2 * radius + 1;
+
+        Double[][] kernal = new Double[kernalWidth][kernalWidth];
+        
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                int expNumerator = -(x * x + y * y);
+                Double expDenominator = 2 * sigma * sigma;
+
+                Double kernalValue = Math.exp(expNumerator / expDenominator);
+                kernal[x + radius][y + radius] = kernalValue;
+            }
+        }
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int red = 0;
+                int green = 0;
+                int blue = 0;
+                Double kernalTotal = 0.0;
+                for (int x1 = -radius; x1 <= radius; x1++) {
+                    for (int y1 = -radius; y1 <= radius; y1++) {
+                        if ((x + x1) < (width - 1) && (x + x1) > 0 && (y + y1) < (height - 1) && (y + y1) > 0) {
+                            int pixel = inputImg.getRGB(x + x1, y + y1);
+                            Color color = new Color(pixel, true);
+                            Double kernalValue = kernal[x1 + radius][y1 + radius];
+
+                            red += color.getRed() * kernalValue;
+                            green += color.getGreen() * kernalValue;
+                            blue += color.getBlue() * kernalValue;
+                            kernalTotal += kernalValue;
+                        }
+                    }
+                }
+
+                red /= kernalTotal;
+                green /= kernalTotal;
+                blue /= kernalTotal;
+
+                Color newColor = new Color(red, green ,blue);
+                outputImg.setRGB(x, y, newColor.getRGB());
+            }
+        }
+
+        return outputImg;
+    }
 }
