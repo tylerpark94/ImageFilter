@@ -84,6 +84,32 @@ public class ImageEditor {
                 i++;
                 outputImg = Effects.GaussianBlur(inputImg, r);
                 break;
+            case "sgblur": 
+                int rad = Integer.parseInt(args[i]);
+                i++;
+                int t = Integer.parseInt(args[i]);
+                i++;
+                outputImg = Effects.SmartGaussianBlur(inputImg, rad, t);
+                break;
+            case "maxblur":
+                int width = Integer.parseInt(args[i]);
+                i++;
+                outputImg = Effects.MaximumGaussianBlur(inputImg, width);
+                break;
+            case "oil":
+                int j = Integer.parseInt(args[i]);
+                i++;
+                int levels = Integer.parseInt(args[i]);
+                i++;
+                outputImg = Effects.OilEffect(inputImg, j, levels);
+                break;
+            case "glow": 
+                int p = Integer.parseInt(args[i]);
+                i++;
+                double glow = Double.parseDouble(args[i]);
+                i++;
+                outputImg = Effects.GlowEffect(inputImg, p, glow);
+                break;
             default: 
                 System.out.println("Invalid option");
                 return;
