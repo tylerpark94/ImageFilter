@@ -110,7 +110,12 @@ public class ImageEditor {
                 i++;
                 outputImg = Effects.GlowEffect(inputImg, p, glow);
                 break;
-            default: 
+            case "twirl":
+                int a = Integer.parseInt(args[i]);
+                i++;
+                outputImg = PixelMove.Twirl(inputImg, a);
+                break;
+            default:
                 System.out.println("Invalid option");
                 return;
         }

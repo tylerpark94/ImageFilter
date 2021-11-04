@@ -62,7 +62,6 @@ public class PixelMove {
     }
 
     public static BufferedImage Twist(BufferedImage inputImg) {
-        
         int oddWidth = inputImg.getWidth() - 1;
         int oddHeight = inputImg.getHeight() - 1;
         int outputSize = Math.min(oddWidth, oddHeight);
@@ -130,6 +129,45 @@ public class PixelMove {
             for (int y = miny + move - 1; y > miny; y--) {
                 int xMove = move - (y - miny);
                 outputImg.setRGB(minx + xMove - xOffset, miny - yOffset, inputImg.getRGB(minx, y));
+            }
+        }
+
+        return outputImg;
+    }
+
+    public static BufferedImage Twirl(BufferedImage inputImg, int angle) {
+        int oddWidth = inputImg.getWidth() - 1;
+        int oddHeight = inputImg.getHeight() - 1;
+        int radius = Math.min(oddWidth, oddHeight) / 2;
+        double angleRadians = Math.toRadians(angle);
+
+        int radius2 = radius * radius;
+
+        BufferedImage outputImg = new BufferedImage(oddWidth, oddHeight, inputImg.getType());
+
+        int midX = oddWidth / 2;
+        int midY = oddHeight / 2;
+
+        for (int x = 0; x < oddWidth; x++) {
+            for (int y = 0; y < oddHeight; y++) {
+                int dx = x - midX;
+                int dy = y - midY;
+                double distance = dx * dx + dy* dy;
+
+                double outX = 0;
+                double outY = 0;
+
+                if (distance > radius2) {
+                    outX = x;
+                    outY = y;
+                } else {
+                    distance = Math.sqrt(distance);
+                    double a = Math.atan2(dy, dx) + angleRadians * (radius - distance) / radius;
+                    outX = midX + distance * Math.cos(a);
+                    outY = midY + distance * Math.sin(a);
+                }
+
+                outputImg.setRGB(x, y, inputImg.getRGB((int)outX, (int)outY));
             }
         }
 
