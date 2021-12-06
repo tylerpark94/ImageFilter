@@ -15,6 +15,7 @@ public class ImageEditor {
 
         BufferedImage inputImg = null;
         BufferedImage outputImg = null;
+        EffectBase image = null;
 
         try {
             inputImg = ImageIO.read(new File(inputImgPath));
@@ -25,95 +26,104 @@ public class ImageEditor {
 
         switch(option) {
             case "swaprb":
-            case "swapbr": 
-                outputImg = ColorChange.SwapRB(inputImg);
+            case "swapbr":
+                image = new SwapRB(inputImg);
+                outputImg = image.CreateEffect();
                 break;
             case "swaprg":
             case "swapgr":
-                outputImg = ColorChange.SwapRG(inputImg);
+                image = new SwapGR(inputImg);
+                outputImg = image.CreateEffect();
                 break;
             case "swapgb":
             case "swapbg":
-                outputImg = ColorChange.SwapBG(inputImg);
+                image = new SwapBG(inputImg);
+                outputImg = image.CreateEffect();
                 break;
             case "grey":
             case "gray":
-                outputImg = ColorChange.Greyscale(inputImg);
+                image = new Greyscale(inputImg);
+                outputImg = image.CreateEffect();
                 break;
             case "moveup":
-                int amount = Integer.parseInt(args[i]);
+                String[] temp = {args[i]};
                 i++;
-                outputImg = PixelMove.MoveUp(inputImg, amount);
+                image = new MoveUp(inputImg, temp);
+                outputImg = image.CreateEffect();
                 break;
             case "vwavy":
-                int vHeight = Integer.parseInt(args[i]);
+                String[] temp2 = {args[i], args[i+1]};
                 i++;
-                double vWidth = Double.parseDouble(args[i]);
                 i++;
-                outputImg = PixelMove.VerticalWavy(inputImg, vHeight, vWidth);
+                image = new VerticalWavy(inputImg, temp2);
+                outputImg = image.CreateEffect();
                 break;
             case "hwavy":
-                int hHeight = Integer.parseInt(args[i]);
+                String[] temp3 = {args[i], args[i+1]};
                 i++;
-                double hWidth = Double.parseDouble(args[i]);
                 i++;
-                outputImg = PixelMove.HorizontalWavy(inputImg, hHeight, hWidth);
+                image = new HorizontalWavy(inputImg, temp3);
+                outputImg = image.CreateEffect();
                 break;
             case "2dwavy":
-                int twoDHeight = Integer.parseInt(args[i]);
+                String[] temp4 = {args[i], args[i+1]};
                 i++;
-                double twoDWidth = Double.parseDouble(args[i]);
                 i++;
-                outputImg = PixelMove.TwoDWavy(inputImg, twoDHeight, twoDWidth);
+                image = new VerticalWavy(inputImg, temp4);
+                outputImg = image.CreateEffect();
+                image = new HorizontalWavy(outputImg, temp4);
+                outputImg = image.CreateEffect();
                 break;
             case "pixelate":
-                int radius = Integer.parseInt(args[i]);
+                String[] temp6 = {args[i]};
                 i++;
-                outputImg = Effects.pixelate(inputImg, radius);
-                break;
-            case "twist":
-                outputImg = PixelMove.Twist(inputImg);
+                image = new Pixelate(inputImg, temp6);
+                outputImg = image.CreateEffect();
                 break;
             case "boxblur":
-                int w = Integer.parseInt(args[i]);
+                String[] temp7 = {args[i]};
                 i++;
-                outputImg = Effects.BoxBlur(inputImg, w);
+                image = new BoxBlur(inputImg, temp7);
+                outputImg = image.CreateEffect();
                 break;
             case "gblur": 
-                int r = Integer.parseInt(args[i]);
+                String[] temp8 = {args[i]};
                 i++;
-                outputImg = Effects.GaussianBlur(inputImg, r);
+                image = new GaussianBlur(inputImg, temp8);
+                outputImg = image.CreateEffect();
                 break;
-            case "sgblur": 
-                int rad = Integer.parseInt(args[i]);
+            case "sgblur":
+                String[] temp9 = {args[i], args[i+1]};
                 i++;
-                int t = Integer.parseInt(args[i]);
                 i++;
-                outputImg = Effects.SmartGaussianBlur(inputImg, rad, t);
+                image = new SmartGaussianBlur(inputImg, temp9);
+                outputImg = image.CreateEffect();
                 break;
             case "maxblur":
-                int width = Integer.parseInt(args[i]);
+                String[] temp10 = {args[i]};
                 i++;
-                outputImg = Effects.MaximumGaussianBlur(inputImg, width);
+                image = new MaxBlur(inputImg, temp10);
+                outputImg = image.CreateEffect();
                 break;
             case "oil":
-                int j = Integer.parseInt(args[i]);
+                String[] temp11 = {args[i], args[i+1]};
                 i++;
-                int levels = Integer.parseInt(args[i]);
                 i++;
-                outputImg = Effects.OilEffect(inputImg, j, levels);
+                image = new OilBlur(inputImg, temp11);
+                outputImg = image.CreateEffect();
                 break;
             case "glow": 
-                int p = Integer.parseInt(args[i]);
+                String[] temp12 = {args[i], args[i+1]};
                 i++;
-                double glow = Double.parseDouble(args[i]);
                 i++;
-                outputImg = Effects.GlowEffect(inputImg, p, glow);
+                image = new Glow(inputImg, temp12);
+                outputImg = image.CreateEffect();
                 break;
             case "twirl":
-                int a = Integer.parseInt(args[i]);
+                String[] temp5 = {args[i]};
                 i++;
-                outputImg = PixelMove.Twirl(inputImg, a);
+                image = new Twirl(inputImg, temp5);
+                outputImg = image.CreateEffect();
                 break;
             default:
                 System.out.println("Invalid option");
