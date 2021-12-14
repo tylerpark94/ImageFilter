@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import ImageFilter.*;
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
 
 public class ImageEditor {
@@ -132,10 +131,13 @@ public class ImageEditor {
 
         try {
             String outputPath = args[i];
+            String ext = outputPath.substring(outputPath.length() - 3);
+            String outputExtension = ext.equals("png") ? "png" : "jpg";
             File outputFile = new File(outputPath);
-            ImageIO.write(outputImg, "jpg", outputFile);
+            ImageIO.write(outputImg, outputExtension, outputFile);
         } catch (IOException e) {
             System.out.println("ERROR SAVING");
+            System.out.println(e.getMessage());
         }
     }
 }
