@@ -124,6 +124,12 @@ public class ImageEditor {
                 image = new Twirl(inputImg, temp5);
                 outputImg = image.CreateEffect();
                 break;
+            case "boxrotate":
+                String[] temp13 = {args[i]};
+                i++;
+                image = new BoxRotate(inputImg, temp13);
+                outputImg = image.CreateEffect();
+                break;
             default:
                 System.out.println("Invalid option");
                 return;
